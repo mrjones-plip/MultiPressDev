@@ -15,8 +15,10 @@ echo "  ... Done"
 echo ''
 
 echo "• Installing WordPress..."
+echo "• Downloading ..."
 curl -L -s http://wordpress.org/latest.tar.gz -o /tmp/wordpress.latest.tar.gz
-tar -xzvf /tmp/wordpress.latest.tar.gz -C /var/www/sidecar/
+echo "• Untarring ..."
+tar -xzf /tmp/wordpress.latest.tar.gz -C /var/www/sidecar/
 mv /vagrant/sidecar/wordpress/* /vagrant/sidecar/.
 rmdir /vagrant/sidecar/wordpress/
 ln -s /vagrant/provision/wp-config.php /vagrant/sidecar/
