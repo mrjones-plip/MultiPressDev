@@ -7,7 +7,10 @@
 echo "• Installing LAMP ..."
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q install -y mlocate  apache2 mysql-server  mysql-client php5
-updatedb
+ln -s /vagrant/sidecar /var/www/
+ln -s /vagrant/provision/100-sidecar.test.conf /etc/apache2/sites-available/
+a2ensite 100-sidecar.test.conf
+service apache2 reload
 echo "  ... Done"
 
 #echo "• Starting Apache & MySQL, injecting base MySQL data ..."
@@ -21,6 +24,8 @@ echo "  ... Done"
 #chkconfig mysqld on
 #echo "  ... Done"
 
-echo "• Getting IP Addresses ... pick one:"
+echo "• Map this to  IP sidecar.dev in /etc/hosts:"
 ifconfig|grep -v inet6|grep inet|cut -d ':' -f 2|cut -d ' ' -f 1|egrep -v '127.0.0|10.0'
 echo "  ... Done"
+
+echo "• After you added the hosts file go to http://sidecar.dev"
