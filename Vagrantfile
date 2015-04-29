@@ -1,5 +1,3 @@
-require './provision/vagrant-provision-reboot-plugin.rb'
-
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -12,11 +10,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus = 2
   end
 
-#  config.vm.network "public_network"
   config.vm.network "private_network", type: "dhcp"
   config.ssh.forward_agent = true
-
-#  config.vm.synced_folder '.', '/vagrant', type: "nfs"
 
   # Apache
   config.vm.network :forwarded_port, guest: 443, host: 8443, host_ip: "127.0.0.1"
@@ -26,9 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 3308, host: 33080, host_ip: "127.0.0.1"
 
   # Provision script
-  config.vm.provision "shell", path: "provision/development_sys.sh"
-#  config.vm.provision :unix_reboot
   config.vm.provision "shell", path: "provision/development_lamp.sh"
-#  config.vm.provision :unix_reboot
 
 end

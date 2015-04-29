@@ -1,46 +1,44 @@
 #!/bin/bash
 
-#echo "• Installing Vbox additional ...  "
-#/etc/init.d/vboxadd setup
-#echo "  ... Done"
+echo echo "Running 'apt-get update' "
+apt-get update
 
-echo "• Installing LAMP ..."
+echo "Installing LAMP "
 export DEBIAN_FRONTEND=noninteractive
-apt-get -q install -y mlocate  apache2 mysql-server  mysql-client php5 php5-mysql
-ln -s /vagrant/sidecar /var/www/
-ln -s /vagrant/provision/100-sidecar.test.conf /etc/apache2/sites-available/
-a2ensite 100-sidecar.test.conf
+apt-get -q install -y  apache2 mysql-server  mysql-client php5 php5-mysql vim curl
+ln -s /vagrant/wordpress /var/www/
+ln -s /vagrant/provision/100-wordpress.test.conf /etc/apache2/sites-available/
+a2ensite 100-wordpress.test.conf
 service apache2 reload
-echo "  ... Done"
+echo " Done!"
 echo ''
 
-echo "• Installing WordPress..."
-echo "• Downloading ..."
+echo "Installing WordPress"
+echo "Downloading "
 curl -L -s http://wordpress.org/latest.tar.gz -o /tmp/wordpress.latest.tar.gz
-echo "• Untarring ..."
-tar -xzf /tmp/wordpress.latest.tar.gz -C /var/www/sidecar/
-mv /vagrant/sidecar/wordpress/* /vagrant/sidecar/.
-rmdir /vagrant/sidecar/wordpress/
-ln -s /vagrant/provision/wp-config.php /vagrant/sidecar/
+echo "Untarring "
+rm -rf /vagrant/wordpress/.
+tar -xzf /tmp/wordpress.latest.tar.gz -C /var/www/wordpress/
+mv /vagrant/wordpress/wordpress/* /vagrant/wordpress/.
+rmdir /vagrant/wordpress/wordpress/
+ln -s /vagrant/provision/wp-config.php /vagrant/wordpress/
+echo "Injecting SQL "
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION; FLUSH PRIVILEGES;CREATE DATABASE IF NOT EXISTS wordpress;"
-echo '  ... Done'
+mysql -u root wordpress < /vagrant/provision/wordpress.clean.sql
+echo ' Done!'
 echo ''
 
-#echo "• Starting Apache & MySQL, injecting base MySQL data ..."
-#service httpd restart
-#service mysqld restart
-#mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-#echo "  ... Done"
+echo 'Updating locate DB'
+updatedb
+echo ' Done!'
+echo ''
 
-#echo "• Persist Apache & Mysql deamons ..."
-#chkconfig httpd on
-#chkconfig mysqld on
-#echo "  ... Done"
-
-echo "• Map this to  IP sidecar.dev in /etc/hosts:"
+echo "Map this to  IP wordpress.dev in /etc/hosts:"
 ifconfig|grep -v inet6|grep inet|cut -d ':' -f 2|cut -d ' ' -f 1|egrep -v '127.0.0|10.0'
-echo '  ... Done'
+echo ' Done!'
 echo ''
 
-echo "• After you added the hosts file go to http://sidecar.dev or http://sidecar.dev/wp-admin/install.php"
+echo "After you added the hosts file go to http://wordpress.dev or http://wordpress.dev/wp-admin/install.php"
+echo "WordPress Web Login: root Password: password"
+echo "MySQL login root password NULL"
 echo ''
