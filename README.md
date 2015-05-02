@@ -2,8 +2,8 @@
 
 ## Overview
 
-Run all the [WordPress](https://wordpress.org) versions in a
-VM for easily cross version WordPress plugin development or
+Run all the [WordPress](https://wordpress.org) versions in a single
+VM. Allows easily cross version WordPress plugin development or
 multi-version testing.  Runs in an Ubuntu 14.04 VM.
 
 ## Install
@@ -28,11 +28,11 @@ Database!
 
 ## Roadmap
 * Add more WP versions
-* Loop in vagrant provision over WP versions?
+* In vagrant provision WP by looping over versions instead of static code?
 * Keep WP versions local instead of downloading from wp.org?
 
 ## Release History
 
-### 4.1.15
+### 1.0 - 4.1.15
 * Initial release to port from using latest to static versions of WP
 * Only support 4.2.1 and 4.1.4 for now
