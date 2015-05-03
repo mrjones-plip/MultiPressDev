@@ -21,55 +21,42 @@ service apache2 reload
 echo " Done!"
 echo ''
 
-echo "Installing WordPress 4.2.1"
-echo "Downloading "
-curl -L -s https://wordpress.org/wordpress-4.2.1.tar.gz -o /tmp/wordpress-4.2.1.zip
-echo "Untarring "
-if [ ! -d "/vagrant/wordpress/4_2_1" ]; then
-    mkdir /vagrant/wordpress/4_2_1
-fi
-rm -rf /vagrant/wordpress/4_2_1/*
-tar -xzf /tmp/wordpress-4.2.1.zip -C /vagrant/wordpress/4_2_1
-mv /vagrant/wordpress/4_2_1/wordpress/* /vagrant/wordpress/4_2_1/.
-rmdir /var/www/wordpress/4_2_1/wordpress/
-if [ ! -f /vagrant/wordpress/4_2_1/wp-config.php ]; then
-    ln -s /vagrant/provision/wp-config4_2_1.php /vagrant/wordpress/4_2_1/wp-config.php
-fi
-echo "Injecting SQL "
-mysql -u root -e "DROP DATABASE IF EXISTS wordpress4_2_1;CREATE DATABASE IF NOT EXISTS wordpress4_2_1;"
-mysql -u root wordpress4_2_1 < /vagrant/provision/wordpress.4.2.1.sql
-echo ' Done!'
-echo ''
+# define a versions in MultiPressDev
+versions=( "4.2.1" "4.1.4")
+for version in "${versions[@]}"
+do
+   :
+    echo "Installing WordPress $version"
+    echo "Downloading "
+    escapedVersion="${version/./\_}"
+    escapedVersion="${escapedVersion/./\_}"
 
+    curl -L -s https://wordpress.org/wordpress-$version.tar.gz -o /tmp/wordpress-$version.zip
+    echo "Untarring "
+    if [ ! -d "/vagrant/wordpress/$escapedVersion" ]; then
+        mkdir /vagrant/wordpress/$escapedVersion
+    fi
+    rm -rf /vagrant/wordpress/$escapedVersion/*
+    tar -xzf /tmp/wordpress-$version.zip -C /vagrant/wordpress/$escapedVersion
+    mv /vagrant/wordpress/$escapedVersion/wordpress/* /vagrant/wordpress/$escapedVersion/.
+    rmdir /var/www/wordpress/$escapedVersion/wordpress/
+    if [ ! -f /vagrant/wordpress/$escapedVersion/wp-config.php ]; then
+        ln -s /vagrant/provision/wp-config$version.php /vagrant/wordpress/$escapedVersion/wp-config.php
+    fi
+    mysql -u root -e "DROP DATABASE IF EXISTS wordpress$escapedVersion;CREATE DATABASE IF NOT EXISTS wordpress$escapedVersion;"
+    mysql -u root wordpress$escapedVersion < /vagrant/provision/wordpress.$version.sql
+    echo 'Done!'
+    echo ''
+done
 
-echo "Installing WordPress 4.1.4"
-echo "Downloading "
-curl -L -s https://wordpress.org/wordpress-4.1.4.tar.gz -o /tmp/wordpress-4.1.4.tar.gz
-echo "Untarring "
-if [ ! -d "/vagrant/wordpress/4_1_4" ]; then
-    mkdir /vagrant/wordpress/4_1_4
-fi
-rm -rf /vagrant/wordpress/4_1_4/*
-tar -xzf /tmp/wordpress-4.1.4.tar.gz -C /vagrant/wordpress/4_1_4
-mv /vagrant/wordpress/4_1_4/wordpress/* /vagrant/wordpress/4_1_4/.
-rmdir /var/www/wordpress/4_1_4/wordpress/
-if [ ! -f /vagrant/wordpress/4_1_4/wp-config.php ]; then
-    ln -s /vagrant/provision/wp-config4_1_4.php /vagrant/wordpress/4_1_4/wp-config.php
-fi
-echo "Injecting SQL "
-mysql -u root -e "DROP DATABASE IF EXISTS wordpress4_1_4;CREATE DATABASE IF NOT EXISTS wordpress4_1_4;"
-mysql -u root wordpress4_1_4 < /vagrant/provision/wordpress.4.1.4.sql
-echo ' Done!'
-echo ''
-
-echo 'Updating locate DB'
+echo 'Updating locate DB and restarting Apache'
 updatedb
+apachectl restart
 echo ' Done!'
 echo ''
 
-echo "Map this to  IP wordpress.dev in /etc/hosts:"
+echo "Add this IP in your /etc/hosts for wordpress.dev:"
 ifconfig|grep -v inet6|grep inet|cut -d ':' -f 2|cut -d ' ' -f 1|egrep -v '127.0.0|10.0'
-echo ' Done!'
 echo ''
 
 echo "After you added the hosts file go to http://wordpress.dev to see a list of WP versions"

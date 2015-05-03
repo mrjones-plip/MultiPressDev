@@ -28,10 +28,13 @@ Database!
 
 ## Roadmap
 * Add more WP versions
-* In vagrant provision WP by looping over versions instead of static code?
 * Keep WP versions local instead of downloading from wp.org?
 
 ## Release History
+
+### 1.1 - 4.2.15
+* Add loop in provision script
+* Fix missing "wordpress" folder
 
 ### 1.0 - 4.1.15
 * Initial release to port from using latest to static versions of WP
