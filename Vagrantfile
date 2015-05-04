@@ -23,4 +23,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provision script
   config.vm.provision "shell", path: "provision/development_lamp.sh"
 
+  # Set up shared directory
+  config.vm.synced_folder "./", "/vagrant",
+  group: "www-data",
+  mount_options: ["dmode=775,fmode=664"]
+
 end
