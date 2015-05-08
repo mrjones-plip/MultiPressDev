@@ -11,7 +11,15 @@ multi-version testing.  Runs in an Ubuntu 14.04 VM.
 ### Prerequisites
 
 You should have git, of course, as well as
-[Vagrant](https://www.vagrantup.com/) installed before starting.
+[Vagrant](https://www.vagrantup.com/)  and [Virtual Box](https://www.virtualbox.org/) installed
+before starting. To ensure these are all set up, test with these commands.  Each one
+should output a version:
+
+<code>git --version
+vagrant --version
+VBoxManage --version</code>
+
+If you're missing one, go install it before going further!
 
 ### Download and Boot
 
@@ -54,6 +62,9 @@ MySQL log in is:
 * Keep WP versions local instead of downloading from wp.org?
 
 ## Release History
+
+### 1.4 - 5.8.15
+* Ahem, instruct folks to install VirtualBox too.  Kinda important.
 
 ### 1.3 - 5.8.15
 * Allow plugins to easily be added
