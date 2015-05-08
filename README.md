@@ -55,11 +55,11 @@ MySQL log in is:
 
 ## Release History
 
-### 1.3 5.8.15
+### 1.3 - 5.8.15
 * Allow plugins to easily be added
 * Remove option for wordpress.dev, localhost is just easier to set up.
 
-### 1.2 5.8.15
+### 1.2 - 5.8.15
 * Fix release dates (April != May)
 * Allow localhost
 
