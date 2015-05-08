@@ -45,6 +45,13 @@ do
     fi
     mysql -u root -e "DROP DATABASE IF EXISTS wordpress$escapedVersion;CREATE DATABASE IF NOT EXISTS wordpress$escapedVersion;"
     mysql -u root wordpress$escapedVersion < /vagrant/provision/wordpress.$version.sql
+    # thanks http://moinne.com/blog/ronald/bash/list-directory-names-in-bash-shell
+    #$PLUGINS="./plugins/"
+    #DIRS=`ls -l $PLUGINS | egrep '^d' | awk '{print $8}'`
+    #for DIR in $DIRS
+    #do
+    #echo  ${DIR}
+    #done
     echo 'Done!'
     echo ''
 done
