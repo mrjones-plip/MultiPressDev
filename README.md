@@ -27,6 +27,7 @@ Database!
 
 
 ## Roadmap
+* Allow automatic install of plugins and themes
 * Add more WP versions
 * Keep WP versions local instead of downloading from wp.org?
 
