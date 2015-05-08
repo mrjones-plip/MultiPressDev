@@ -15,7 +15,7 @@ You should have git, of course, as well as
 
 ### Download and Boot
 
-WARNING - every "provision" or "up" of vagrant will *DELETE *your WordPress
+WARNING - every "provision" or "up" of vagrant will *DELETE* your WordPress
 Database!
 
 1. Clone this repo
@@ -24,10 +24,29 @@ Database!
 1. Go to http://localhost:8080/ in a browser
 1. Enjoy
 
-If you want to spice it up, you can also:
+### Auto provision plugins
 
-1. Add the /etc/hosts per the vagrant up output
-1. Go to http://wordpress.dev in a browser
+If you're a plugin developer you can copy your plugin into the "plugins" folder.  When
+MultiPressDev provisions each instance of WordPress, it will symlink in the one plugin
+directory to each instance.  You will then need to log in and activate the plugin.  This will
+allow you to easily test your plugin on all the different versions.
+
+If you've already run "vagrant up" before you copied in your plugins, no problem!  Just copy
+the your plugin to the plugin folder and then run "vagrant provision".  The symlinks will
+be recreated.
+
+REMEMBER - Every time you run "provision" or "up" of vagrant, it will *DELETE* your
+WordPress Database!
+
+### Log In Credientials
+
+WordPress log in is:
+* login: root
+* password: password
+
+MySQL log in is:
+* login: root
+* password: NULL (no password set)
 
 ## Roadmap
 * Allow automatic install of plugins and themes
@@ -35,6 +54,10 @@ If you want to spice it up, you can also:
 * Keep WP versions local instead of downloading from wp.org?
 
 ## Release History
+
+### 1.3 5.8.15
+* Allow plugins to easily be added
+* Remove option for wordpress.dev, localhost is just easier to set up.
 
 ### 1.2 5.8.15
 * Fix release dates (April != May)
