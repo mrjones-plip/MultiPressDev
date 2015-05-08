@@ -15,9 +15,9 @@ You should have git, of course, as well as
 before starting. To ensure these are all set up, test with these commands.  Each one
 should output a version:
 
-<code>git --version
+<pre>git --version
 vagrant --version
-VBoxManage --version</code>
+VBoxManage --version</pre>
 
 If you're missing one, go install it before going further!
 
