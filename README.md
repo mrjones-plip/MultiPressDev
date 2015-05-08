@@ -15,7 +15,7 @@ You should have git, of course, as well as
 
 ### Download and Boot
 
-WARNING - every "provision" or "up" of vagrant will DELETE your WordPress
+WARNING - every "provision" or "up" of vagrant will *DELETE *your WordPress
 Database!
 
 1. Clone this repo
@@ -25,6 +25,7 @@ Database!
 1. Enjoy
 
 If you want to spice it up, you can also:
+
 1. Add the /etc/hosts per the vagrant up output
 1. Go to http://wordpress.dev in a browser
 
