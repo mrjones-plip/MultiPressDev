@@ -2,9 +2,11 @@
 
 ## Overview
 
-Run all the [WordPress](https://wordpress.org) versions in a single
+Run all* the [WordPress](https://wordpress.org) versions in a single
 VM. Allows easily cross version WordPress plugin development or
 multi-version testing.  Runs in an Ubuntu 14.04 VM.
+
+* versions 1.2.2 through 2.5.1 unsupported, all others work.
 
 ## Install
 
