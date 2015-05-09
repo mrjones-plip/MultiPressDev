@@ -1,14 +1,14 @@
 #!/bin/bash
-# MultiPressDev  1.0 - 4.1.15
+# MultiPressDev  2.0 - 5.8.15
 
 echo "Running 'apt-get update' "
-#apt-get -qqy update
+apt-get -qqy update
 echo " Done!"
 echo ''
 
 echo "Installing LAMP "
 export DEBIAN_FRONTEND=noninteractive
-#apt-get install -qqy  apache2 mysql-server  mysql-client php5 php5-mysql vim curl
+apt-get install -qqy  apache2 mysql-server  mysql-client php5 php5-mysql vim curl
 if [ ! -f /var/www/wordpress ]; then
     ln -s /vagrant/wordpress /var/www/
 fi
@@ -21,17 +21,19 @@ service apache2 reload
 echo " Done!"
 echo ''
 
-# define a versions in MultiPressDev
-versions=( "4.2.1" "4.1.4")
+#versions=( "4.2.2" )
+versions=( "4.2.2" "4.1.5" "4.0.5" "3.9.6" "3.8.8" "3.7.8" "3.6.1" "3.5.1" "3.4.2" "3.3.3" "3.2.1" "3.1.4" "3.0.6" "2.9.2" "2.8.6" "2.7.1" "2.6.5" "2.5.1" "2.3.3" "2.2.3" "2.1.3" "2.0.11" "1.5.2"  )
 for version in "${versions[@]}"
 do
    :
     echo "Installing WordPress $version"
-    echo "Downloading "
     escapedVersion="${version/./\_}"
     escapedVersion="${escapedVersion/./\_}"
 
-    curl -L -s https://wordpress.org/wordpress-$version.tar.gz -o /tmp/wordpress-$version.zip
+    if [ ! -f /tmp/wordpress-$version.zip ]; then
+        echo "Downloading "
+        curl -L -s https://wordpress.org/wordpress-$version.tar.gz -o /tmp/wordpress-$version.zip
+    fi
     echo "Untarring "
     if [ ! -d "/vagrant/wordpress/$escapedVersion" ]; then
         mkdir /vagrant/wordpress/$escapedVersion
@@ -41,10 +43,11 @@ do
     mv /vagrant/wordpress/$escapedVersion/wordpress/* /vagrant/wordpress/$escapedVersion/.
     rmdir /var/www/wordpress/$escapedVersion/wordpress/
     if [ ! -f /vagrant/wordpress/$escapedVersion/wp-config.php ]; then
-        ln -s /vagrant/provision/wp-config$version.php /vagrant/wordpress/$escapedVersion/wp-config.php
+        ln -s /vagrant/provision/config/wp-config$version.php /vagrant/wordpress/$escapedVersion/wp-config.php
+        echo ''
     fi
     mysql -u root -e "DROP DATABASE IF EXISTS wordpress$escapedVersion;CREATE DATABASE IF NOT EXISTS wordpress$escapedVersion;"
-    #mysql -u root wordpress$escapedVersion < /vagrant/provision/wordpress.$version.sql
+    mysql -u root wordpress$escapedVersion < /vagrant/provision/sql/wordpress.$version.sql
     # thanks http://moinne.com/blog/ronald/bash/list-directory-names-in-bash-shell
     PLUGINS='/vagrant/plugins/'
     DIRS=`ls -l --time-style="long-iso" $PLUGINS | egrep '^d' | awk '{print $8}'`
@@ -64,11 +67,7 @@ apachectl restart
 echo 'Done!'
 echo ''
 
-echo "Add this IP in your /etc/hosts for wordpress.dev:"
-ifconfig|grep -v inet6|grep inet|cut -d ':' -f 2|cut -d ' ' -f 1|egrep -v '127.0.0|10.0'
-echo ''
-
 echo "After you added the hosts file go to http://localhost:8080 to "
-echo "see a list of WP versions. WordPress Web Login: root Password: password"
+echo "see a list of WP versions. WordPress Web Login: admin Password: password"
 echo "and MySQL login root password NULL"
 echo ''
