@@ -85,8 +85,7 @@ MySQL log in is:
 ### 2.0 - 5.8.15
 * Add caching for already download versions
 * Add versions 1.5.2 - 4.2.2 of WordPress
-* Introduce bug where 1.5.2  - 2.5.1 are broken. Fix TBD but error log shows "PHP Warning:  require_once(/vagrant/provision/config/wp-settings.php)".  So likely we'll need to provision a wp-settings.php file for
-these earlier versions.
+* Introduce bug where 1.5.2  - 2.5.1 are broken. Fix TBD, but error log shows <code>PHP Warning:  require_once(/vagrant/provision/config/wp-settings.php)</code>.
 
 ### 1.4 - 5.8.15
 * Ahem, instruct folks to install VirtualBox too.  Kinda important.
