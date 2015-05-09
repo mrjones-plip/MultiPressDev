@@ -67,7 +67,7 @@ apachectl restart
 echo 'Done!'
 echo ''
 
-echo "After you added the hosts file go to http://localhost:8080 to "
-echo "see a list of WP versions. WordPress Web Login: admin Password: password"
+echo "Go to http://localhost:8080 to see a list of WP versions."
+echo "WordPress Web Login: admin Password: password"
 echo "and MySQL login root password NULL"
 echo ''
