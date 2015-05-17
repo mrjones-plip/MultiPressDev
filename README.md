@@ -1,18 +1,19 @@
-# MultiPressDev
+# MultiPressDev v2.1
 
 ## Overview
 
 Run all* the [WordPress](https://wordpress.org) versions in a single
 VM. Allows easily cross version WordPress plugin development or
-multi-version testing.  Runs in an Ubuntu 14.04 VM. (* versions 1.2.2
-through 2.5.1 unsupported, all others work)
+multi-version testing.  Runs in an Ubuntu 14.04 VM.
+
+(*version 3.3.3 unsupported, all others work)
 
 ## Install
 
 ### Prerequisites
 
-You should have git, of course, as well as
-[Vagrant](https://www.vagrantup.com/)  and [Virtual Box](https://www.virtualbox.org/) installed
+You should have git installed, of course, as well as
+[Vagrant](https://www.vagrantup.com/) and [Virtual Box](https://www.virtualbox.org/) installed
 before starting. To ensure these are all set up, test with these commands.  Each one
 should output a version:
 
@@ -22,16 +23,22 @@ VBoxManage --version</pre>
 
 If you're missing one, go install it before going further!
 
+As well, you should have enough disk space to provision an Ubuntu 14 VM, ~1GB.
+
 ### Download and Boot
 
-WARNING - every "provision" or "up" of vagrant will *DELETE* your WordPress
-Database!
+**WARNING** - every "provision" or "up" of vagrant will **DELETE** your WordPress
+Database **AND** the contents of your WordPress core install files! Your plugins
+will be untouched, of course.
 
 1. Clone this repo
 1. `cd` into the repo
 1. type `vagrant up`
 1. Go to http://localhost:8080/ in a browser
 1. Enjoy
+
+**Note** - You're installing 20+ versions of WordPress.  The install process might
+ take a few minutes!
 
 ### Auto provision plugins
 
@@ -45,31 +52,16 @@ the your plugin to the plugin folder and then run "vagrant provision".  The syml
 be recreated.
 
 REMEMBER - Every time you run "provision" or "up" of vagrant, it will *DELETE* your
-WordPress Database!
+WordPress Database **AND** the contents of your WordPress core install files!! This is
+so you can easily maintain a virgin install state on disk an in database. Your plugin
+code will remain untouched, of course.
 
 ### Supported versions
 
 Currently, MultiPressDev supports the following versions of WordPress: "4.2.2" "4.1.5" "4.0.5" "3.9.6" "3.8.8" "3.7.8" "3.6.1" "3.5.1" "3.4.2" "3.3.3" "3.2.1" "3.1.4" "3.0.6" "2.9.2" "2.8.6" "2.7.1" "2.6.5" "2.5.1" "2.3.3" "2.2.3" "2.1.3" "2.0.11" "1.5.2".
 
 *NOTE* - There is a known bug in MultiPressDev which means that it does not
-support versions 1.2.2 through 2.5.1. This will be fixed in a future release.
-
-However, if, you only want to install 4.2.2 (latest as of this writing), you can just
-swap out which line is commented out in the Vagrant file.  So take these two lines:
-
-<code>#versions=( "4.2.2" )</code>
-
-<code>versions=( "4.2.2" "4.1.5" "4.0.5" "3.9.6" "3.8.8" "3.7.8" "3.6.1" "3.5.1" "3.4.2" "3.3.3" "3.2.1" "3.1.4" "3.0.6" "2.9.2" "2.8.6" "2.7.1" "2.6.5" "2.5.1" "2.3.3" "2.2.3" "2.1.3" "2.0.11" "1.5.2" )</code>
-
-And make it look like this:
-
-<code>versions=( "4.2.2" )</code>
-
-<code>#versions=( "4.2.2" "4.1.5" "4.0.5" "3.9.6" "3.8.8" "3.7.8" "3.6.1" "3.5.1" "3.4.2" "3.3.3" "3.2.1" "3.1.4" "3.0.6" "2.9.2" "2.8.6" "2.7.1" "2.6.5" "2.5.1" "2.3.3" "2.2.3" "2.1.3" "2.0.11" "1.5.2"  )</code>
-
-As well, you could copy in just the versions you want to install. Otherwise,
-the first "up" of vagrant will take a while as it downloads all the versions.  On subsequent
-"provissions", these downloads are chached.
+support version 3.3.3.
 
 ### Log In Credientials
 
@@ -82,6 +74,12 @@ MySQL log in is:
 * password: NULL (no password set)
 
 ## Release History
+
+### 2.1 - 5.16.15
+* Move to one single tarball for feature #2
+* Clean up install script
+* Explicitly state what we're gonna nuke on install (DB and Core, but not plugins)
+* Introduce bug where 1.5.2  - 2.5.1 are broken. Fix TBD, but error log shows <code>PHP Fatal error:  Access to undeclared static property: WP_Screen::$this</code>.
 
 ### 2.0 - 5.8.15
 * Add caching for already download versions
