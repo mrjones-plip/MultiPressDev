@@ -1,15 +1,10 @@
 #!/bin/bash
 # MultiPressDev  2.0 - 5.8.15
 
-echo "Running 'apt-get update' "
-apt-get -qqy update
-echo " Done!"
-echo ''
-
 echo "Installing LAMP "
 export DEBIAN_FRONTEND=noninteractive
 apt-get install -qqy  apache2 mysql-server  mysql-client php5 php5-mysql vim curl
-if [ ! -f /var/www/wordpress ]; then
+if [ ! -d /var/www/wordpress ]; then
     ln -s /vagrant/wordpress /var/www/
 fi
 if [ ! -f /etc/apache2/sites-available/100-wordpress.dev.conf ]; then
@@ -21,33 +16,35 @@ service apache2 reload
 echo " Done!"
 echo ''
 
+echo "Removing any existing WordPress installs (takes a sec, so hang on...)"
+#rm -rf /vagrant/wordpress/*
+echo " Done!"
+echo ''
+
+echo "Uncompressing all versions (takes *much *longer than sec, so hang on some more...)"
+#tar -xzf /vagrant/provision/wordpress.all.tar.gz -C  /vagrant/wordpress/
+#mv /vagrant/wordpress/wordpress/* /vagrant/wordpress/.
+#m -rf  /vagrant/wordpress/wordpress
+echo " Done!"
+echo ''
+
+
 #versions=( "4.2.2" )
 versions=( "4.2.2" "4.1.5" "4.0.5" "3.9.6" "3.8.8" "3.7.8" "3.6.1" "3.5.1" "3.4.2" "3.3.3" "3.2.1" "3.1.4" "3.0.6" "2.9.2" "2.8.6" "2.7.1" "2.6.5" "2.5.1" "2.3.3" "2.2.3" "2.1.3" "2.0.11" "1.5.2"  )
 for version in "${versions[@]}"
 do
    :
-    echo "Installing WordPress $version"
+    echo "Provisioning WordPress $version"
     escapedVersion="${version/./\_}"
     escapedVersion="${escapedVersion/./\_}"
 
-    if [ ! -f /tmp/wordpress-$version.zip ]; then
-        echo "Downloading "
-        curl -L -s https://wordpress.org/wordpress-$version.tar.gz -o /tmp/wordpress-$version.zip
-    fi
-    echo "Untarring "
-    if [ ! -d "/vagrant/wordpress/$escapedVersion" ]; then
-        mkdir /vagrant/wordpress/$escapedVersion
-    fi
-    rm -rf /vagrant/wordpress/$escapedVersion/*
-    tar -xzf /tmp/wordpress-$version.zip -C /vagrant/wordpress/$escapedVersion
-    mv /vagrant/wordpress/$escapedVersion/wordpress/* /vagrant/wordpress/$escapedVersion/.
-    rmdir /var/www/wordpress/$escapedVersion/wordpress/
     if [ ! -f /vagrant/wordpress/$escapedVersion/wp-config.php ]; then
         ln -s /vagrant/provision/config/wp-config$version.php /vagrant/wordpress/$escapedVersion/wp-config.php
         echo ''
     fi
     mysql -u root -e "DROP DATABASE IF EXISTS wordpress$escapedVersion;CREATE DATABASE IF NOT EXISTS wordpress$escapedVersion;"
     mysql -u root wordpress$escapedVersion < /vagrant/provision/sql/wordpress.$version.sql
+    mysql -u root wordpress$escapedVersion < /vagrant/provision/reset.root.user.sql
     # thanks http://moinne.com/blog/ronald/bash/list-directory-names-in-bash-shell
     PLUGINS='/vagrant/plugins/'
     DIRS=`ls -l --time-style="long-iso" $PLUGINS | egrep '^d' | awk '{print $8}'`
@@ -55,7 +52,9 @@ do
     for DIR in $DIRS
     do
         echo "...${DIR}"
-        `ln -s /vagrant/plugins/${DIR} /var/www/wordpress/$escapedVersion/wp-content/plugins/${DIR}`
+        if [ ! -d /var/www/wordpress/$escapedVersion/wp-content/plugins/${DIR} ]; then
+            `ln -s /vagrant/plugins/${DIR} /var/www/wordpress/$escapedVersion/wp-content/plugins/${DIR}`
+        fi
     done
     echo 'Done!'
     echo ''
