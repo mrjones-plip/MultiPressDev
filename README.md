@@ -3,7 +3,7 @@
 ## Overview
 
 Run all* the [WordPress](https://wordpress.org) versions in a single
-VM. Allows easily cross version WordPress plugin development or
+Vagrant VM. Allows easily cross version WordPress plugin development or
 multi-version testing.  Runs in an Ubuntu 14.04 VM.
 
 (*version 3.3.3 unsupported, all others work)
@@ -53,7 +53,7 @@ be recreated.
 
 REMEMBER - Every time you run "provision" or "up" of vagrant, it will *DELETE* your
 WordPress Database **AND** the contents of your WordPress core install files!! This is
-so you can easily maintain a virgin install state on disk an in database. Your plugin
+so you can easily maintain a virgin install state on disk and in database. Your plugin
 code will remain untouched, of course.
 
 ### Supported versions
@@ -79,7 +79,7 @@ MySQL log in is:
 * Move to one single tarball for feature #2
 * Clean up install script
 * Explicitly state what we're gonna nuke on install (DB and Core, but not plugins)
-* Introduce bug where 1.5.2  - 2.5.1 are broken. Fix TBD, but error log shows <code>PHP Fatal error:  Access to undeclared static property: WP_Screen::$this</code>.
+* Introduce bug where WP v3.3.3 is broken. Fix TBD, but error log shows <code>PHP Fatal error:  Access to undeclared static property: WP_Screen::$this</code>.
 
 ### 2.0 - 5.8.15
 * Add caching for already download versions
