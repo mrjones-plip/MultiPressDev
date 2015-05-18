@@ -1,4 +1,4 @@
-# MultiPressDev v2.1
+# MultiPressDev v2.1.1
 
 ## Overview
 
@@ -74,6 +74,9 @@ MySQL log in is:
 * password: NULL (no password set)
 
 ## Release History
+
+### 2.1.2 - 5.17.15
+* Fix bug where we didn't apt-get update and had some key code commented out for v2.1 release (see #6)
 
 ### 2.1 - 5.16.15
 * Move to one single tarball for feature #2
