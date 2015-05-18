@@ -22,7 +22,7 @@ echo " Done!"
 echo ''
 
 echo "Removing any existing WordPress installs (takes a sec, so hang on...)"
-#rm -rf /vagrant/wordpress/*
+rm -rf /vagrant/wordpress/*
 echo " Done!"
 echo ''
 
