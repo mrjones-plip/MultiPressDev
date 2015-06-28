@@ -1,4 +1,4 @@
-# MultiPressDev v2.1.1
+# MultiPressDev v2.2
 
 ## Overview
 
@@ -74,6 +74,9 @@ MySQL log in is:
 * password: NULL (no password set)
 
 ## Release History
+
+### 2.2 - 6.1728.15
+* Add [PMA](http://www.phpmyadmin.net/) (see #8)
 
 ### 2.1.2 - 5.17.15
 * Fix bug where we didn't apt-get update and had some key code commented out for v2.1 release (see #6)
