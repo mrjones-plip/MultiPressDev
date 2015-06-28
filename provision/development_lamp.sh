@@ -8,7 +8,7 @@ echo ''
 
 echo "Installing LAMP "
 export DEBIAN_FRONTEND=noninteractive
-apt-get install -qqy  apache2 mysql-server  mysql-client php5 php5-mysql vim curl
+apt-get install -qqy  apache2 mysql-server  mysql-client php5 php5-mysql vim curl unzip zip
 if [ ! -d /var/www/wordpress ]; then
     ln -s /vagrant/wordpress /var/www/
 fi
@@ -64,6 +64,19 @@ do
     echo 'Done!'
     echo ''
 done
+
+echo 'Installing PMA'
+if [ ! -d /vagrant/pma ]; then
+    cd /vagrant;unzip -qq pma.zip;cd;
+fi
+if [ ! -f /vagrant/pma/config.inc.php ]; then
+    ln -s /vagrant/provision/config/pma.config.php /vagrant/pma/config.inc.php
+fi
+if [ ! -f /vagrant/wordpress/pma ]; then
+    ln -s /vagrant/pma /vagrant/wordpress/pma
+fi
+echo 'Done!'
+echo ''
 
 echo 'Updating locate DB and restarting Apache'
 updatedb
