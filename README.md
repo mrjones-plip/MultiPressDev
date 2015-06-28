@@ -75,7 +75,7 @@ MySQL log in is:
 
 ## Release History
 
-### 2.2 - 6.1728.15
+### 2.2 - 6.28.15
 * Add [PMA](http://www.phpmyadmin.net/) (see #8)
 
 ### 2.1.2 - 5.17.15
