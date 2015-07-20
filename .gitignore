@@ -3,3 +3,5 @@ pma
 .vagrant
 .idea
 !wordpress
+/nbproject/private/
+nbproject
